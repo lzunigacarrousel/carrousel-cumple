@@ -23,7 +23,7 @@ El manual y los tutoriales que usa el personal también viven dentro de la aplic
 ## Reglas que una revisión debe preservar
 
 - Registrar al cliente no emite automáticamente un cupón dentro de la misma petición. El proceso de campañas se ejecuta después.
-- La ventana es −15/+15 días inclusive; puede cruzar meses y años. No equivale a todos los cumpleaños de un mes calendario.
+- La versión actual usa −15/+15; la nueva regla confirmada es −15/+14, inclusive, pendiente en el [encargo del practicante](encargo-practicante.md). La adaptación debe actualizar pruebas y documentación sin recalcular silenciosamente los cupones anteriores. Las ventanas pueden cruzar meses y años.
 - Una campaña activa puede emitir una vez por cliente y año de cumpleaños. Repetir el proceso no crea otro regalo de la misma campaña y año.
 - El centro de registro y el de canje proceden de la cuenta autenticada. No se seleccionan libremente en los formularios.
 - La consulta del código y el bloqueo del segundo canje son globales. Un fallo de conexión central impide autorizar el canje.

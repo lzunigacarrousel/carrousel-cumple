@@ -14,7 +14,7 @@ Todos los parques deben abrir la misma instalación central del portal. No insta
 
 ## Requisitos
 
-PHP 8.2 con PDO MySQL, mbstring y OpenSSL; MariaDB 10.4 o superior con InnoDB; Apache con mod_rewrite y AllowOverride All para esta carpeta. Git y Composer para obtener el código y sus dependencias. PHPMailer 6.12.0 queda fijado en `composer.lock`; ejecutar `composer install --no-dev` para instalarlo con su licencia. `vendor` no se sube a Git.
+PHP 8.2 con PDO MySQL, mbstring y OpenSSL; MariaDB 10.4 o superior con InnoDB; Apache con mod_rewrite y AllowOverride All para esta carpeta. Git y Composer para obtener el código y sus dependencias. PHPMailer 7.1.1 queda fijado en `composer.lock`; ejecutar `composer install --no-dev` para instalarlo con su licencia. `vendor` no se sube a Git. Una actualización en Git no actualiza por sí sola la copia instalada en XAMPP.
 
 Encender Apache y MySQL en XAMPP. El proceso automático necesita PHP, MySQL y acceso al SMTP aunque nadie navegue. `storage` requiere escritura para sesiones/logs; la cuenta del servicio debe poder leer la configuración privada. No habilitar listado de directorios.
 
@@ -81,7 +81,7 @@ Pueden crearse roles de operación/supervisión con permisos específicos. Dar a
 
 En **Campañas**, crear un borrador y definir nombre, tipo de beneficio (tokens, producto, descuento u otro), descripción, cantidad cuando aplique, condiciones y asunto/texto del correo. Para tokens se exige una cantidad entera positiva; no hay cantidad comercial predeterminada.
 
-Las fechas opcionales limitan cuándo puede emitir la campaña. La vigencia del cupón permanece −15/+15 respecto al cumpleaños, inclusive. Activar cuando el beneficio y la URL pública estén listos. Varias campañas activas pueden dar varios regalos a un cliente: uno por campaña/año.
+Las fechas opcionales limitan cuándo puede emitir la campaña. La versión actual mantiene −15/+15 respecto al cumpleaños, inclusive; el nuevo objetivo confirmado es −15/+14 y está pendiente en el [encargo del practicante](docs/encargo-practicante.md), junto con factura y correspondencias POS/SAP. Activar cuando el beneficio y la URL pública estén listos. Varias campañas activas pueden dar varios regalos a un cliente: uno por campaña/año.
 
 Editar la campaña no modifica regalos emitidos. Pausar detiene nuevas emisiones; los cupones existentes conservan validez y cola de correo. Para retirar un cupón, anularlo con motivo.
 
