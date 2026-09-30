@@ -23,6 +23,8 @@ Lee [CONTRIBUTING.md](CONTRIBUTING.md) para ramas, pruebas y pull requests; [doc
 
 ## Cómo funciona
 
+**Adaptación encargada al practicante:** negocio confirmó una nueva ventana **−15/+14** y un canje con factura obligatoria. El código aún conserva −15/+15 y no solicita factura. Consulta el [encargo, entregas y criterios de aceptación](docs/encargo-practicante.md); la descripción siguiente corresponde a la versión actual.
+
 Consulta el [flujo completo del proceso con diagramas](docs/flujo-del-proceso.md): responsables, fechas, envío automático, excepciones y canje entre parques.
 
 1. Administración configura usuarios, roles, centro operativo y una campaña con beneficio, condiciones y correo.

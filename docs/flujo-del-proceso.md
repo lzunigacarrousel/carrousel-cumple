@@ -1,5 +1,7 @@
 # Flujo del programa de cumpleaños
 
+**Estado del documento:** describe la implementación actual. El 30/09/2026 el propietario confirmó cambiar a −15/+14 conforme al proceso recibido, que también exige factura. Estos cambios están pendientes a cargo del practicante; ver el [encargo de implementación](encargo-practicante.md) y sus referencias. No usar esta descripción de −15/+15 como la nueva especificación.
+
 El personal registra clientes; el sistema prepara y envía el regalo automáticamente. El cliente presenta su cupón en cualquier parque de la red y un empleado confirma su único canje en la base central.
 
 ```mermaid
