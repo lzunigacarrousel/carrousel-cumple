@@ -1,0 +1,40 @@
+<?php
+declare(strict_types=1);
+$root=dirname(__DIR__);
+foreach(['Database','Mailer','Identity','Program','Delivery','ImportCatalog'] as $class) require_once "$root/app/$class.php";
+$cfg=require "$root/config/test.php";if($cfg['db_name']!=='carrousel_cumple_test')throw new RuntimeException('Solo base de pruebas.');date_default_timezone_set($cfg['timezone']);$db=Database::connect($cfg);
+$db->exec('SET FOREIGN_KEY_CHECKS=0');foreach(['audit','mail_queue','coupons','registration_requests','customers','campaigns','otp_codes','request_limits','user_centers','users','roles','cost_centers','runtime_state'] as $table)$db->exec("DELETE FROM `$table`");$db->exec('SET FOREIGN_KEY_CHECKS=1');
+$count=0;function check(bool $ok,string $message):void {global $count;if(!$ok)throw new RuntimeException('FAIL '.$message);echo "PASS $message\n";$count++;}
+function rejects(callable $f,string $message):void {try{$f();}catch(DomainException){check(true,$message);return;}throw new RuntimeException('FAIL '.$message);}
+$db->prepare('INSERT INTO roles(id,code,name,permissions_json,is_system) VALUES(1,?,?,?,1),(2,?,?,?,0)')->execute(['ADMINISTRADOR','Administrador',json_encode(array_keys(Identity::PERMISSIONS)),'PARQUE','Parque',json_encode(['customers.read','customers.write','coupons.read','coupons.redeem'])]);
+$db->exec("INSERT INTO cost_centers(id,code,name,park_name,active) VALUES(1,'QA-A','Centro A','Parque A',1),(2,'QA-B','Centro B','Parque B',1)");
+$db->exec("INSERT INTO users(id,name,email,role_id,center_id) VALUES(1,'Admin QA','admin@example.test',1,NULL),(2,'Parque A QA','a@example.test',2,1),(3,'Parque B QA','b@example.test',2,2)");
+$messages=[];$mailer=new Mailer($cfg,function($m)use(&$messages){$messages[]=$m;});$identity=new Identity($db,$cfg,$mailer);$admin=$identity->user(1);$a=$identity->user(2);$b=$identity->user(3);
+$program=new Program($db,$identity,new DateTimeImmutable('2026-09-21 12:00:00'));
+$input=['name'=>'Cliente QA','day'=>21,'month'=>9,'email'=>'cliente@example.test','phone'=>'55551234','is_minor'=>false,'terms_accepted'=>true,'request_id'=>'qa-1'];
+$customer=$program->register($a,$input);check((int)$db->query('SELECT COUNT(*) FROM coupons')->fetchColumn()===0,'Registro independiente: cero cupones');check($customer['customer']['center_id']===1,'Centro de registro desde cuenta');
+check($program->register($a,$input)['duplicate'],'Reintento de alta idempotente');
+rejects(fn()=>$program->register($a,array_replace($input,['email'=>'invalido','request_id'=>'qa-invalid'])),'Correo obligatorio válido');
+rejects(fn()=>$program->register($a,array_replace($input,['center_id'=>2,'request_id'=>'qa-spoof'])),'Centro de registro no suplantable');
+rejects(fn()=>$program->register($admin,$input),'Administración sin centro no registra');
+rejects(fn()=>$program->register($a,array_replace($input,['name'=>'Otro','request_id'=>'qa-1'])),'Idempotencia rechaza reutilizar clave con distinto contenido');
+$campaign=['title'=>'Campaña QA','benefit_type'=>'tokens','benefit_label'=>'Regalo QA','quantity'=>5,'terms'=>'Condiciones QA','email_subject'=>'Tu regalo','email_intro'=>'Feliz cumpleaños','status'=>'active'];
+rejects(fn()=>$program->saveCampaign($a,$campaign),'Parque no configura campaña');
+rejects(fn()=>$program->saveCampaign($admin,array_replace($campaign,['quantity'=>''])),'Tokens requieren cantidad definida');
+$saved=$program->saveCampaign($admin,$campaign);check($program->issue()===1,'Proceso anual emite dentro de ventana');check($program->issue()===0,'Reejecución no duplica');
+$row=$db->query('SELECT * FROM coupons ORDER BY id LIMIT 1')->fetch();$coupon=$program->lookup($a,$row['code']);check($coupon['valid_from']==='2026-09-06'&&$coupon['valid_until']==='2026-10-06','Ventana inclusiva -15/+15');
+$program->saveCampaign($admin,array_replace($campaign,['id'=>$saved['id'],'benefit_label'=>'Regalo futuro','quantity'=>10]));check($program->lookup($a,$row['code'])['benefit_label']==='Regalo QA','Cupón conserva beneficio emitido');
+$foreign=$program->lookup($b,$row['code']);check(!isset($foreign['email'])&&!isset($foreign['phone'])&&!isset($foreign['token']),'Consulta global sin contactos ni enlace privado');
+$delivery=new Delivery($db,$cfg,$mailer,$program);$result=$delivery->run();check($result['accepted']===1,'Cola entrega al transporte');check(count($messages)===1&&str_contains($messages[0]['text'],$row['code']),'Correo conserva código y beneficio');check($delivery->run()['accepted']===0,'Aceptado no se reenvía');
+$used=$program->redeem($b,$row['code']);check((int)$used['redeemed_center_id']===2&&$used['redeemed_by_name']==='Parque B QA','Canje global guarda centro y cuenta real');rejects(fn()=>$program->redeem($a,$row['code']),'Segundo uso bloqueado en otro parque');
+$public=$program->publicCoupon($row['token']);check(!isset($public['email'])&&!isset($public['registered_by_name']),'Cupón público sin datos de personal ni contactos');
+$request=$identity->requestOtp('a@example.test','session-qa','127.0.0.1');$otpMessage=end($messages);preg_match('/Código: (\d{6})/',$otpMessage['text'],$match);$code=$match[1];
+rejects(fn()=>$identity->verifyOtp($request['challenge'],'000000','session-qa','127.0.0.1'),'OTP incorrecto rechazado');
+check((int)$db->query('SELECT attempts FROM otp_codes ORDER BY id DESC LIMIT 1')->fetchColumn()===1,'Intento OTP fallido persiste');
+rejects(fn()=>$identity->verifyOtp($request['challenge'],$code,'otra-session','127.0.0.1'),'OTP ligado a sesión solicitante');
+check($identity->verifyOtp($request['challenge'],$code,'session-qa','127.0.0.1')['id']===2,'OTP válido autentica');rejects(fn()=>$identity->verifyOtp($request['challenge'],$code,'session-qa','127.0.0.1'),'OTP de un solo uso');
+$request=$identity->requestOtp('b@example.test','session-qa','127.0.0.1');$db->prepare('UPDATE otp_codes SET expires_at=DATE_SUB(NOW(),INTERVAL 1 MINUTE) WHERE challenge=?')->execute([$request['challenge']]);preg_match('/Código: (\d{6})/',end($messages)['text'],$match);rejects(fn()=>$identity->verifyOtp($request['challenge'],$match[1],'session-qa','127.0.0.1'),'OTP vencido rechazado');
+$db->exec('UPDATE users SET active=0 WHERE id=3');check($identity->user(3)===null,'Cuenta desactivada pierde sesión');$db->exec('UPDATE users SET active=1 WHERE id=3');
+rejects(fn()=>$identity->saveUser($admin,['id'=>1,'name'=>'Admin QA','email'=>'admin@example.test','role_id'=>2,'center_id'=>1,'active'=>true]),'Preserva último administrador');
+check($program->issue()===0,'Canje no permite un nuevo regalo del mismo año');
+echo "$count comprobaciones correctas.\n";

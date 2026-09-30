@@ -1,0 +1,16 @@
+* text=auto
+*.php text eol=lf
+*.example text eol=lf
+*.js text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.lock text eol=lf
+*.sql text eol=lf
+*.ps1 text eol=lf
+*.yml text eol=lf
+*.bat text eol=crlf
+*.png binary
+*.jpg binary
+*.ico binary
+*.woff2 binary

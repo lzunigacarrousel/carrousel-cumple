@@ -1,0 +1,29 @@
+name: Tarea de colaboración
+description: Divide un objetivo en trabajo comprobable.
+title: "[Tarea] "
+body:
+  - type: textarea
+    id: goal
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: scope
+    attributes:
+      label: Alcance y archivos
+      description: Qué cambiará, qué archivos se prevé tocar y qué tareas relacionadas deben coordinarse.
+    validations:
+      required: true
+  - type: textarea
+    id: checks
+    attributes:
+      label: Comprobaciones
+      description: Cómo se comprobará el resultado con datos sintéticos.
+    validations:
+      required: true
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencias
+      description: Enlaces a tareas o PR relacionados; nunca credenciales o datos reales.

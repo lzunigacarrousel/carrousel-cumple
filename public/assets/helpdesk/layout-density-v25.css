@@ -1,0 +1,296 @@
+/* Helpdesk Carrousel · geometría canónica V3
+ * Única capa final para densidad, ancho útil y footer.
+ * No debe existir otra hoja posterior que redefina .main-wrap/.content/footer.
+ */
+
+:root{
+  --density-gap:14px;
+  --density-gutter:clamp(14px,1.55vw,24px);
+}
+
+/* Shell canónico: contenido flexible + footer al fondo sin huecos artificiales. */
+.main-wrap{
+  display:flex!important;
+  flex-direction:column!important;
+  min-height:calc(100vh - 4px)!important;
+}
+.content{
+  display:flex!important;
+  flex-direction:column!important;
+  flex:1 0 auto!important;
+  min-height:0!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding:20px var(--density-gutter) 20px!important;
+}
+.content>:not(.app-corporate-footer):not(.processing-overlay){
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+  box-sizing:border-box;
+  flex:0 0 auto;
+}
+.content>.app-corporate-footer{
+  width:100%!important;
+  min-height:0!important;
+  margin-top:auto!important;
+  padding:18px 2px 8px!important;
+  box-sizing:border-box;
+  flex:0 0 auto!important;
+}
+
+/* Contenedores principales: un solo ancho útil, sin límites históricos pequeños. */
+.dashboard-page,
+.queue-operational-page,
+.mgmt-page,
+.audit-page,
+.tickets-page,
+.support-page,
+.ticket-workspace,
+.external-admin-page,
+.external-workspace,
+.manual-page,
+.global-search-page,
+.itsm-page{
+  width:100%!important;
+  max-width:none!important;
+  margin-left:0!important;
+  margin-right:0!important;
+}
+
+/* Ritmo vertical compacto y consistente. */
+.page-heading,
+.mgmt-head{
+  margin-bottom:14px!important;
+}
+.card,
+.mgmt-card{
+  min-height:0!important;
+}
+.empty-state,
+.support-inline-empty,
+.itsm-inline-empty,
+.report-empty-info,
+.admin-users-empty{
+  min-height:0!important;
+}
+
+/* Evita columnas vacías cuando un grid tiene menos elementos de los previstos. */
+.grid,
+.mgmt-grid,
+.dashboard-work-grid,
+.dashboard-action-grid,
+.dashboard-requester-grid,
+.external-layout,
+.external-ops-layout,
+.external-case-overview,
+.case-secondary-grid,
+.problem-summary-grid,
+.knowledge-layout,
+.itsm-learning-grid,
+.manual-cards,
+.manual-flow{
+  align-items:start!important;
+}
+.grid>:only-child,
+.mgmt-grid>:only-child,
+.dashboard-work-grid>:only-child,
+.dashboard-action-grid>:only-child,
+.dashboard-requester-grid>:only-child,
+.external-layout>:only-child,
+.external-ops-layout>:only-child,
+.external-case-overview>:only-child,
+.case-secondary-grid>:only-child,
+.problem-summary-grid>:only-child,
+.knowledge-layout>:only-child,
+.itsm-learning-grid>:only-child,
+.manual-cards>:only-child,
+.manual-flow>:only-child{
+  grid-column:1/-1!important;
+  width:100%!important;
+}
+
+/* Listados de tarjetas: auto-fit colapsa columnas vacías. */
+.ticket-list,
+.external-ticket-list{
+  display:grid!important;
+  grid-template-columns:repeat(auto-fit,minmax(min(520px,100%),1fr))!important;
+  gap:12px!important;
+  width:100%!important;
+}
+.ticket-list>.ticket-list-card:only-child,
+.external-ticket-list>.ticket-list-card:only-child{
+  grid-column:1/-1!important;
+  width:100%!important;
+}
+
+/* Dashboard de solicitante/proveedor: no reservar una columna inexistente. */
+.dashboard-external .dashboard-requester-grid,
+.dashboard-requester-grid:has(>:only-child),
+.external-case-overview-compact,
+.external-case-overview:has(>:only-child){
+  grid-template-columns:1fr!important;
+}
+.external-case-overview-compact>.external-case-stats,
+.external-case-overview>:only-child{
+  width:100%!important;
+  grid-column:1/-1!important;
+}
+
+/* Colecciones visuales variables. */
+.external-users,
+.knowledge-grid,
+.itsm-learning-grid,
+.manual-cards,
+.manual-flow,
+.dashboard-action-grid{
+  grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr))!important;
+}
+.external-users{
+  grid-template-columns:repeat(auto-fit,minmax(min(360px,100%),1fr))!important;
+  align-items:start!important;
+}
+
+/* Grids administrativos: el último bloque impar usa toda la fila. */
+.mgmt-grid>:last-child:nth-child(odd),
+.case-secondary-grid>:last-child:nth-child(odd){
+  grid-column:1/-1!important;
+}
+
+.external-operation-card{
+  height:auto!important;
+  min-height:0!important;
+}
+.external-ops-layout{
+  align-items:start!important;
+}
+
+/* Ticket: flujo secuencial. Solo Problema + Contexto comparten fila. */
+.case-focus-workspace{
+  display:flex!important;
+  flex-direction:column!important;
+  align-items:stretch!important;
+  gap:var(--density-gap)!important;
+  width:100%!important;
+  max-width:none!important;
+  margin:0!important;
+  padding-top:0!important;
+}
+.case-focus-head,
+.case-focus-workspace>.alert{
+  width:100%!important;
+  flex:0 0 auto;
+}
+.case-focus-grid{
+  display:grid!important;
+  grid-template-columns:minmax(0,2.15fr) minmax(300px,.85fr)!important;
+  gap:var(--density-gap)!important;
+  align-items:stretch!important;
+  width:100%!important;
+}
+.case-focus-grid>.case-problem-card,
+.case-focus-grid>.case-status-card{
+  grid-column:auto!important;
+  width:100%!important;
+  height:100%!important;
+  margin:0!important;
+}
+.case-problem-card .card-body,
+.case-status-card .card-body{height:100%}
+.case-status-card{
+  position:static!important;
+  top:auto!important;
+  align-self:stretch!important;
+}
+.case-status-main{padding:8px 0 10px!important}
+.case-status-list{padding-top:7px!important}
+.case-status-list>div{padding:7px 0!important}
+.case-problem-meta{gap:9px!important;padding-top:10px!important}
+.case-problem-meta>div{padding:9px 10px!important}
+
+.case-focus-workspace>.case-conversation-card,
+.case-focus-workspace>.case-action-card,
+.case-focus-workspace>.ticket-problem-link,
+.case-focus-workspace>.suggested-solutions,
+.case-focus-workspace>.similar-solutions,
+.case-focus-workspace>.case-secondary-grid{
+  width:100%!important;
+  max-width:none!important;
+  grid-column:auto!important;
+  margin:0!important;
+  align-self:stretch!important;
+}
+.case-conversation-card .card-body,
+.case-action-card .card-body{padding:16px 18px!important}
+.conversation-list{margin:9px 0!important;gap:8px!important;min-height:0!important}
+.conversation-list:has(.conversation-empty){min-height:0!important}
+.conversation-empty{padding:14px 12px!important;min-height:0!important}
+.conversation-form{padding-top:12px!important;gap:9px!important}
+.conversation-form textarea{min-height:92px!important}
+.case-secondary-grid{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:var(--density-gap)!important;
+  align-items:start!important;
+}
+.case-secondary-grid>.card{margin:0!important}
+
+/* Gestión/reportes: sin alturas heredadas ni dobles márgenes. */
+.mgmt-grid{gap:var(--density-gap)!important;margin-bottom:var(--density-gap)!important}
+.mgmt-card{margin-bottom:var(--density-gap)!important}
+.mgmt-grid>.mgmt-card{margin-bottom:0!important}
+.report-records,
+.ticket-list,
+.support-case-list,
+.admin-user-list{gap:10px!important}
+
+/* Dashboard: pocos bloques no generan columnas fantasmas. */
+.dashboard-work-grid{align-items:start!important}
+.dashboard-work-card,
+.dashboard-queue-card{height:auto!important;min-height:0!important}
+.dashboard-activity-card .ticket-list{width:100%!important}
+
+/* Evita que tarjetas o paneles simples reserven espacio vertical sin contenido. */
+.card:has(.empty-state),
+.mgmt-card:has(.empty-state),
+.card:has(.conversation-empty){height:auto!important;min-height:0!important}
+
+@media(max-width:1000px){
+  .case-focus-grid{grid-template-columns:1fr!important}
+  .case-focus-grid>.case-problem-card,
+  .case-focus-grid>.case-status-card{height:auto!important}
+  .case-secondary-grid{grid-template-columns:1fr!important}
+  .ticket-list,
+  .external-ticket-list{grid-template-columns:1fr!important}
+}
+
+@media(max-width:760px){
+  :root{--density-gutter:12px;--density-gap:12px}
+  .content{padding:14px var(--density-gutter) 18px!important}
+  .case-conversation-card .card-body,
+  .case-action-card .card-body{padding:14px!important}
+  .external-users,
+  .knowledge-grid,
+  .itsm-learning-grid,
+  .manual-cards,
+  .manual-flow,
+  .dashboard-action-grid{grid-template-columns:1fr!important}
+}
+
+
+/* FASE CATEGORIAS/UI 2026-09-11 · alineacion final dashboard */
+.mgmt-grid{align-items:stretch!important}
+.mgmt-grid>.mgmt-card{height:100%!important;align-self:stretch!important}
+.dashboard-work-grid{align-items:stretch!important}
+.dashboard-work-grid>.card{height:100%!important;align-self:stretch!important}
+.mgmt-filterbar{align-items:end!important}
+.mgmt-filterbar>label{display:flex!important;flex-direction:column!important;height:100%!important}
+.mgmt-filterbar>label>.form-control{margin-top:auto!important}
+@media(max-width:900px){.mgmt-grid>.mgmt-card,.dashboard-work-grid>.card{height:auto!important}.mgmt-filterbar>label{height:auto!important}}
+
+
+/* AJUSTES FINALES 2026-09-11 · KPI dashboard */
+@media(min-width:1501px){.mgmt-kpis-expanded{grid-template-columns:repeat(8,minmax(0,1fr))!important}}
+@media(min-width:901px) and (max-width:1500px){.mgmt-kpis-expanded{grid-template-columns:repeat(4,minmax(0,1fr))!important}}

@@ -1,0 +1,33 @@
+name: Proponer una mejora
+description: Explica una necesidad y cómo reconocer que está resuelta.
+title: "[Mejora] "
+body:
+  - type: markdown
+    attributes:
+      value: "Describe el flujo con datos ficticios. Evita copiar datos personales o configuraciones privadas."
+  - type: textarea
+    id: need
+    attributes:
+      label: Necesidad
+      description: ¿Qué necesita hacer la persona y qué dificultad encuentra hoy?
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Comportamiento deseado
+      description: Indica el perfil y las pantallas involucradas.
+    validations:
+      required: true
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Criterios de aceptación
+      description: Ejemplos concretos que permitirían comprobar la mejora.
+    validations:
+      required: true
+  - type: textarea
+    id: references
+    attributes:
+      label: Referencias
+      description: Pantallas o procedimientos de Helpdesk, Caja Chica o PayOut aplicables, sin información privada.

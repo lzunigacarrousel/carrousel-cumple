@@ -1,0 +1,40 @@
+name: Reportar un error
+description: Describe un comportamiento incorrecto y cómo reproducirlo.
+title: "[Error] "
+body:
+  - type: markdown
+    attributes:
+      value: "Usa datos ficticios. No incluyas clientes reales, credenciales, OTP, enlaces privados de cupones, dumps o configuración privada. Para problemas de acceso indebido, contacta al responsable por un canal privado."
+  - type: textarea
+    id: steps
+    attributes:
+      label: Pasos para reproducir
+      description: Indica la pantalla y el perfil utilizado, sin identificar cuentas reales.
+      placeholder: "1. Entrar con perfil Parque…\n2. Abrir…\n3. Guardar…"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Resultado esperado
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Resultado observado
+      description: Puedes adjuntar una captura o error después de ocultar datos personales y secretos.
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Entorno y versión
+      description: Sistema, navegador, PHP y commit o fecha de la instalación, si se conocen.
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Datos del reporte
+      options:
+        - label: Revisé que no contiene datos personales ni secretos.
+          required: true

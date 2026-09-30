@@ -1,0 +1,9 @@
+{
+  "name": "carrousel/cumple",
+  "description": "Programa de cumpleaños, campañas y canjes Carrousel",
+  "license": "proprietary",
+  "require": {
+    "php": ">=8.2", "ext-pdo": "*", "ext-pdo_mysql": "*", "ext-mbstring": "*", "ext-openssl": "*",
+    "phpmailer/phpmailer": "^6.12"
+  }
+}

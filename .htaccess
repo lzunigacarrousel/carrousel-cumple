@@ -1,0 +1,14 @@
+Options -Indexes
+DirectoryIndex index.php
+RewriteEngine On
+RewriteRule ^public/router\.php$ - [F,L,NC]
+RewriteRule ^vendor/qrcode\.min\.js$ public/vendor/qrcode.min.js [L]
+RewriteRule ^(?:app|bin|config|database|docs|storage|tests|tools|vendor|\.git)(?:/|$) - [F,L,NC]
+RewriteRule ^(?:AGENTS\.md|README\.md|INSTALACION\.md|CONTRIBUTING\.md|SECURITY\.md|THIRD_PARTY_NOTICES\.md|composer\.(?:json|lock)|\.env.*)$ - [F,L,NC]
+RewriteRule ^assets/(.*)$ public/assets/$1 [L]
+RewriteRule ^qr/(.*)$ public/vendor/$1 [L]
+RewriteRule ^(app\.js|help\.js|theme\.js|cumple\.css)$ public/$1 [L]
+RewriteRule ^api\.php$ public/api.php [L]
+<FilesMatch "^\.">
+ Require all denied
+</FilesMatch>

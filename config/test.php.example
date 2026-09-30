@@ -1,0 +1,29 @@
+<?php
+declare(strict_types=1);
+
+// Only synthetic fixtures belong in this database. Never use production credentials here.
+// bin/setup-tests.php materializes this template in ignored config/test.php.
+$env = static function (string $key, string $default): string {
+    $value = getenv($key);
+    return $value === false ? $default : $value;
+};
+
+return [
+    'db_host' => $env('CUMPLE_TEST_DB_HOST', '127.0.0.1'),
+    'db_port' => (int) $env('CUMPLE_TEST_DB_PORT', '3306'),
+    'db_name' => $env('CUMPLE_TEST_DB_NAME', 'carrousel_cumple_test'),
+    'db_user' => $env('CUMPLE_TEST_DB_USER', 'carrousel_cumple_test'),
+    'db_pass' => $env('CUMPLE_TEST_DB_PASS', ''),
+    'app_url' => 'http://127.0.0.1:8787/',
+    'allowed_hosts' => ['127.0.0.1', 'localhost'],
+    'timezone' => 'America/Guatemala',
+    'app_key' => 'GENERAR_CON_SETUP_TESTS',
+    'smtp_host' => '',
+    'smtp_port' => 1,
+    'smtp_secure' => 'tls',
+    'smtp_username' => '',
+    'smtp_password' => '',
+    'mail_from' => 'test@example.test',
+    'mail_from_name' => 'Carrousel QA',
+    'automation_enabled' => false,
+];

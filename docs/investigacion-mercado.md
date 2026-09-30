@@ -1,0 +1,47 @@
+# Referencias comerciales para cumpleaños y cupones de Carrousel
+
+Consulta: 16 de septiembre de 2026. Contexto: Corporación Carrousel Guatemala, entretenimiento familiar, portal interno PHP/XAMPP. Audiencia confirmada posteriormente por el usuario: exclusivamente clientes de Carrousel en esta etapa. Beneficio y condiciones comerciales pendientes de definir. Comparación de documentación pública oficial; no se contrataron productos ni se probaron cuentas. “No verificado” significa que la documentación consultada no permite afirmarlo, no que la función sea imposible.
+
+## Comparación útil para la decisión
+
+| Plataforma | Encaje para Carrousel | Cumpleaños y emisión | Canje y operación |
+|---|---|---|---|
+| Coupon Carrier | Referencia cercana para cupones presenciales sin integrar el POS | Formulario de correo; cumpleaños mediante automatización externa; entrega automática o manual | QR desde navegador, código único, estado usado, accesos por cajero/sucursal |
+| Voucherify | Motor configurable si se requiere integrar reglas con sistemas propios | Fecha en perfil de cliente, campañas y distribución conectada | QR, barras o texto; validación central, límites y vigencia |
+| Loopy Loyalty | Útil si además se quiere fidelización por visitas | Formulario con fecha; operación manual y automatización mediante API/Zapier/Make | Tarjeta Wallet reutilizable, sellos, recompensas y personal por sucursal |
+| Talon.One | Referencia para una operación compleja y de mayor escala | Perfil/CRM externo y generación automática por integración | Motor de reglas por API; el flujo de caja requiere integración |
+| Smile.io | Referencia de experiencia y controles de cumpleaños | Captura día/mes y concede puntos automáticamente | Recompensa posterior; canje presencial mediante Shopify POS |
+| Square Loyalty + Marketing | Referencia operativa; Guatemala no está soportada por Loyalty | Directorio de clientes y campañas de Marketing | Fidelización integrada al POS y a sus sucursales |
+
+## Hallazgos por producto
+
+**Coupon Carrier.** El cliente recibe un enlace individual; el empleado escanea el QR desde un navegador o marca el cupón como utilizado. Permite entrega manual de enlaces y distribución por plataformas de correo. Registra asignación, acceso y canje; anuncia filtros y exportaciones por campaña, fecha, ubicación y etiquetas. Su formulario básico documentado captura correo; no quedó verificada una captura nativa de cumpleaños. La documentación de enlaces advierte que otra persona con el enlace podría abrirlo: uso único no demuestra identidad. [Producto](https://www.couponcarrier.io/), [enlaces y entrega manual](https://docs.couponcarrier.io/article/6-how-to-distribute-unique-codes-in-your-emails-using-the-redeem-link), [formulario](https://docs.couponcarrier.io/article/129-how-to-distribute-unique-codes-via-a-shareable-signup-form).
+
+Su vigencia puede calcularse desde la generación/asignación del código, que en Redeem Links puede ocurrir al primer clic. Para cumpleaños conviene comprobar que eso no extienda indebidamente la ventana autorizada. La página de precios confirma cobro según códigos entregados y configuraciones, pero los importes dinámicos no pudieron verificarse; no se cita una tarifa. [Vigencia](https://docs.couponcarrier.io/article/66-how-code-expiry-works-for-codes-generated-by-coupon-carrier), [precios](https://www.couponcarrier.io/pricing/).
+
+**Voucherify.** El ejemplo oficial separa datos del cliente, reglas del incentivo y entrega mediante una plataforma de comunicaciones. Soporta códigos asociados al cliente, límites de canje y fechas; la API documenta generación con QR y código de barras. El formulario de alta se debe resolver o integrar: no se confirmó un formulario de cumpleaños listo para publicar. Su aplicación permite escanear o escribir el código, consultar al servidor y registrar canjes; el empleado aplica el beneficio al POS. “Offline” aquí significa presencial: la validación descrita necesita Internet. Hay información de canjes exitosos/fallidos y detalles de cliente/pedido. [Cumpleaños](https://www.voucherify.io/promotion-examples/birthday-campaign), [canje presencial](https://www.voucherify.io/blog/offline-coupon-tracking-without-the-sweat).
+
+Precio público mensual: Business **USD 650**, con 25,000 llamadas API/mes; Organization **USD 1,300**, con 50,000; Enterprise a cotización. No incluye automáticamente el desarrollo del portal ni la mensajería externa. [Precios](https://www.voucherify.io/pricing).
+
+**Loopy Loyalty.** Tiene formulario configurable con campos de fecha, correo y teléfono. El cliente guarda una tarjeta en Apple/Google Wallet; el empleado escanea, entrega sellos y canjea recompensas. Lo canjeado deja de aparecer como disponible, aunque la tarjeta continúa utilizándose. Ofrece subusuarios sin acceso al panel administrativo, historial por empleado y actividad entre ubicaciones. La caducidad documentada corresponde a la tarjeta completa, fija o relativa al alta; no se confirmó un cupón anual independiente que caduque sin afectar los demás premios. Automatizaciones avanzadas requieren conectores/API. [Formulario](https://docs.loopyloyalty.com/en/articles/932782-data-collection-and-customer-information), [sucursales y empleados](https://loopyloyalty.com/features/locations/), [caducidad](https://docs.loopyloyalty.com/en/articles/940998-adding-expiry-dates).
+
+Planes mensuales: **USD 25/69/95** para 1/3/10 ubicaciones y 3/10/50 subusuarios, respectivamente; clientes ilimitados. Es un modelo de sellos, por lo que requiere evaluar su adaptación a una promoción de cumpleaños. [Precios](https://loopyloyalty.com/pricing/).
+
+**Talon.One.** Su tutorial con Braze genera un cupón al enviar el correo de cumpleaños y establece siete días de vigencia como ejemplo configurable. Permite creación manual o por API, códigos personales, límites de uso y fechas. La captura del cumpleaños y el canal de entrega pertenecen a sistemas integrados. La documentación revisada no acredita un escáner QR de caja listo para usar: conviene presupuestar la interfaz y su integración. Sus reportes incluyen canjes, descuentos y datos de campañas. Precio personalizado según volumen; sin importe público verificable. [Cumpleaños con Braze](https://docs.talon.one/docs/dev/technology-partners/braze/bday-promotion-braze), [cupones](https://docs.talon.one/docs/product/campaigns/coupons/create-coupons), [analítica](https://docs.talon.one/docs/product/campaigns/analytics/overview), [precios](https://www.talon.one/pricing).
+
+**Smile.io.** Captura día y mes sin año. Concede puntos en el cumpleaños, exige registrar la fecha con 30 días de anticipación y limita la entrega a una vez cada 365 días. El cupón aparece cuando el cliente canjea los puntos; también existe asistencia administrativa. La caducidad depende del plan/configuración. Ofrece reportes y operación en Shopify POS, pero no es un componente independiente para cualquier portal PHP: soporta Shopify y BigCommerce. Precio público: Free hasta 200 pedidos/mes; Essential **USD 15/mes** hasta 500; otros planes escalan por funciones y volumen. [Cumpleaños](https://help.smile.io/en/articles/4036229-understand-birthday-points), [plataformas](https://help.smile.io/en/articles/4036185-supported-ecommerce-platforms), [precios](https://smile.io/pricing).
+
+**Square Loyalty + Marketing.** Es útil para observar una experiencia de caja integrada: perfil del cliente, recompensas, sucursales y campañas con vencimiento. Marketing permite campañas automáticas o puntuales y restringir cupones por ubicación. No debe asumirse que Birthday Marketing es una función autónoma de Loyalty ni que basta instalarlo en PHP. La documentación actual de Loyalty enumera ocho países soportados y **no incluye Guatemala**. Por ello no se propone como compra para Carrousel ni se extrapola una tarifa extranjera. [Campañas](https://squareup.com/help/us/en/article/8412-create-marketing-campaigns), [disponibilidad y requisitos](https://developer.squareup.com/docs/loyalty-api/overview).
+
+## Patrones propuestos para la solución propia
+
+Estas son conclusiones de diseño, no funciones verificadas del portal existente:
+
+1. Separar registro del beneficiario, campaña, cupón emitido, entrega y canje. Si la promoción admite varios hijos de una familia, compartir contacto no debe confundir sus cumpleaños.
+2. Definir una sola emisión por beneficiario/campaña/año; conservar el mismo cupón al reenviarlo. Documentar anticipación, vencimiento, correcciones de fecha y casos de 29 de febrero.
+3. Mostrar QR y código legible de respaldo. El servidor decide validez y uso; el cajero confirma el beneficio y registra sucursal, usuario y hora.
+4. Resolver dos canjes simultáneos como una sola operación exitosa. Un QR único limita reutilización, pero la comprobación del beneficiario requiere una regla operativa aparte.
+5. Dar al cajero una pantalla breve: válido, usado, vencido, cancelado o fuera de sucursal. Separar permisos para emitir, canjear y autorizar excepciones.
+6. Medir elegibles, emitidos, entregados, canjeados, vencidos y rechazos por campaña/sucursal. No equiparar canjes con ventas incrementales sin datos de compra y comparación.
+
+Para un primer módulo, tomaría el flujo presencial de Coupon Carrier, los controles de Voucherify/Talon.One y la claridad de captura de Smile; Loopy resulta más relevante si después se incorporan visitas y fidelización permanente. La elección comercial requiere volumen, presupuesto y condiciones definitivas.
