@@ -10,6 +10,8 @@
 
 Adaptar la aplicación al proceso de registro, generación y canje que compartió negocio. Se conservan como referencia el [documento original en PDF](referencias/proceso-cumpleaneros.pdf) y su [versión Markdown](referencias/proceso-cumpleaneros.md). Son documentos de requisitos: los ejemplos no son catálogos reales ni instrucciones para acceder a servicios externos.
 
+Para los identificadores reales, el propietario proporcionó [IDS.xlsx](referencias/IDS.xlsx). Usar sus hojas POS y SAP según la [especificación de correspondencia](relacion-pos-sap.md). El catálogo ya está disponible; la equivalencia entre sucursales y centros debe prepararse y validarse porque el Excel no incluye ese cruce.
+
 **Decisión confirmada por el propietario el 30/09/2026:** cambiar la vigencia a **15 días antes, día del cumpleaños y 14 días después**, extremos incluidos: 30 fechas calendario. Esta decisión sustituye el acuerdo anterior de −15/+15 para la nueva implementación. El código actual todavía usa −15/+15; este documento no acredita que ya se haya cambiado.
 
 Cumpleaños de ejemplo: **5 de diciembre de 2026**. Inicio esperado: **20 de noviembre de 2026**. Último día válido: **19 de diciembre de 2026**. El 20 de diciembre debe rechazarse. No ajustar silenciosamente los cupones ya emitidos: presentar su tratamiento antes de migrar; conservar por defecto las fechas ofrecidas.
@@ -21,7 +23,7 @@ Cumpleaños de ejemplo: **5 de diciembre de 2026**. Inicio esperado: **20 de nov
 | Acceso del personal | OTP por correo, roles, cuentas y centros | Reutilizar; mantener permisos y revocación de sesiones |
 | Registro | Nombre, día/mes, correo, teléfono opcional y tutor obligatorio si se marca menor | Incorporar nacimiento completo, cálculo de edad y validaciones del flujo de niños/tutores |
 | Fechas | Ventana −15/+15 | Implementar −15/+14 en nuevas emisiones y actualizar pruebas, textos, manual y tutorial |
-| Identidad del parque | Centro desde la cuenta; catálogo con código y referencia importada | Confirmar con negocio cuál es el ID SAP y documentar su relación, sin equipararlo a un ID interno por suposición |
+| Identidad del parque | Centro desde la cuenta; catálogo con código y referencia importada | Relacionarlo con `IdSucursalPOS` y con `CentroCostoSAP`/`DimensionSAP` de IDS.xlsx mediante correspondencias validadas |
 | Cupón | Código único, emisión por campaña/año, enlace privado y QR | Revisar presentación; definir y entregar la imagen del cupón solicitada por el proceso |
 | Correo | Cola SMTP con estados, reintentos y revisión de resultados inciertos | Conservarla y probar la nueva presentación sin mensajes reales |
 | Canje | Validación central y actualización atómica de un único uso | Incorporar factura obligatoria y el flujo POS/SemnoX antes de confirmar |
@@ -47,7 +49,7 @@ Cumpleaños de ejemplo: **5 de diciembre de 2026**. Inicio esperado: **20 de nov
 - Para el flujo de niños, recoger nombre del tutor, teléfono y correo; validar en servidor además del navegador.
 - Conservar autorización de participación y separar la aceptación opcional de otras promociones.
 - Guardar cuenta, centro y fecha/hora del alta desde el servidor, sin selector de parque para el operador.
-- Verificar el catálogo autorizado de SAP. Los códigos de los ejemplos del documento son ilustrativos y no deben importarse como verdad; incluso las tablas del ejemplo asignan distintos códigos a un mismo nombre.
+- Usar los catálogos de IDS.xlsx: 54 sucursales POS y 299 centros SAP. Conservar `ActivoSAP` y `DimensionSAP`. Preparar el cruce con centros de Cumple conforme a [relacion-pos-sap.md](relacion-pos-sap.md); los códigos ilustrativos del documento de proceso no sustituyen este Excel.
 - Diseñar migración repetible. Los clientes existentes solo tienen día y mes: **no inventar su año de nacimiento**; documentar cómo se completarán sin perder registros ni alterar identidades por accidente.
 - Conservar ceros iniciales si los identificadores SAP los usan. Evitar que cambiar el nombre o código de un centro destruya la trazabilidad histórica.
 
@@ -92,7 +94,7 @@ Flujo solicitado: **consultar cupón → validar → facturar en POS/SemnoX → 
 ## Decisiones que debe resolver con el responsable
 
 1. **Edad elegible:** el documento habla de niños, pero no fija un límite. No inventar una edad máxima ni excluir clientes existentes automáticamente.
-2. **SAP:** confirmar el catálogo oficial y la correspondencia con centros. `source_park_id`, código de centro y código SAP no son necesariamente lo mismo.
+2. **Correspondencias POS/SAP:** el catálogo de referencia es IDS.xlsx, ya proporcionado. Validar el cruce de cada centro operativo con sucursal POS y centro/dimensión SAP. Las dos hojas no contienen esa equivalencia; `source_park_id` no se equipara automáticamente a ninguno de esos identificadores.
 3. **Beneficio por tecnología:** confirmar el uso de 15 tokens o Q45 y cómo identificar los parques aplicables. Administración seguirá configurando la oferta.
 4. **Factura externa:** definir serie/número/sistema/centro necesarios y qué hacer si se factura pero el canje no puede confirmarse. Crear el producto PROMOCIÓN CUMPLEAÑERO en POS/SemnoX requiere coordinación del responsable con el proveedor.
 5. **Imagen:** confirmar si se necesita una imagen adjunta al correo, descargable desde el cupón o ambas; revisar la propuesta antes de implementar ese formato.

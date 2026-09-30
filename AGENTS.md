@@ -46,4 +46,6 @@ Verificación de instalación del 25 de septiembre: base real con 64 cuentas, 29
 
 ## Encargo al practicante — 30 de septiembre de 2026
 
+Para la relación SAP el usuario proporcionó `docs/referencias/IDS.xlsx`: 54 sucursales POS y 299 centros SAP con dimensión y estado. Ver `docs/relacion-pos-sap.md`. El archivo contiene dos catálogos separados, sin tabla de equivalencias. El practicante debe preparar correspondencias validadas con los centros operativos, conservar códigos textuales/dimensión/estado y separar referencias de registro y canje. No se pide una conexión automática a SAP ni se autoriza equiparar IDs por nombre o número.
+
 El usuario quiere que el practicante implemente el proceso recibido. Se preparó `docs/encargo-practicante.md` con brechas, entregas y criterios de aceptación; los originales están en `docs/referencias/`. No confundir requisitos nuevos con funciones ya terminadas: faltan fecha de nacimiento completa/edad, correspondencia SAP verificada, factura obligatoria, presentación de imagen y ajuste de ventana. Conservar beneficios configurables y no inventar edades elegibles ni códigos SAP. Resolver con el responsable el intervalo entre validación y facturación externa antes de operar. Preparar el encargo no autoriza a modificar producción ni a enviar correos.
