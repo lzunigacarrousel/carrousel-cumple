@@ -36,7 +36,6 @@ jobs:
           --health-retries=20
     env:
       CUMPLE_TEST_DB_HOST: 127.0.0.1
-      CUMPLE_TEST_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
       CUMPLE_TEST_DB_NAME: carrousel_cumple_test
       CUMPLE_TEST_DB_USER: carrousel_cumple_test
       CUMPLE_TEST_DB_PASS: ci-test-only
@@ -64,4 +63,6 @@ jobs:
           composer install --prefer-dist --no-interaction --no-progress --no-scripts
       - name: Sintaxis y pruebas aisladas
         shell: pwsh
+        env:
+          CUMPLE_TEST_DB_PORT: ${{ job.services.mariadb.ports[3306] }}
         run: ./tools/check.ps1 -Integration
